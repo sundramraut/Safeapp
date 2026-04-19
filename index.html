@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safe — Trusted Care</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e1117;
+    --paper: #f7f5f0;
+    --sage: #4a7c6f;
+    --sage-light: #6fa396;
+    --sage-pale: #e8f0ee;
+    --warm: #c8a97a;
+    --warm-pale: #f5ede0;
+    --red-soft: #c25a5a;
+    --muted: #7a7870;
+    --border: #ddd9d0;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 80px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    margin-bottom: 64px;
+    animation: fadeUp .8s ease both;
+  }
+
+  .wordmark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    font-weight: 300;
+    letter-spacing: -2px;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .wordmark span {
+    color: var(--sage);
+  }
+
+  .tagline {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 10px;
+  }
+
+  /* ── PHONE WRAPPER ── */
+  .phone-row {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .phone-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .screen-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .phone {
+    width: 320px;
+    background: var(--white);
+    border-radius: 44px;
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,.06),
+      0 32px 80px rgba(0,0,0,.14),
+      inset 0 0 0 1.5px rgba(255,255,255,.9);
+    overflow: hidden;
+    position: relative;
+    animation: fadeUp .8s ease both;
+  }
+
+  .phone:nth-child(1) { animation-delay: .1s; }
+  .phone:nth-child(2) { animation-delay: .2s; }
+  .phone:nth-child(3) { animation-delay: .3s; }
+
+  .phone-inner {
+    min-height: 660px;
+    padding: 0 0 24px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* notch */
+  .notch {
+    width: 100px;
+    height: 24px;
+    background: var(--ink);
+    border-radius: 0 0 16px 16px;
+    margin: 0 auto 0;
+  }
+
+  /* status bar */
+  .statusbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 22px 0;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .statusbar-right { display: flex; gap: 6px; align-items: center; }
+  .battery { width: 18px; height: 9px; border: 1.5px solid currentColor; border-radius: 2px; position: relative; }
+  .battery::after { content: ''; position: absolute; right: -4px; top: 2px; width: 3px; height: 5px; background: currentColor; border-radius: 0 1px 1px 0; }
+  .battery-fill { width: 70%; height: 100%; background: var(--ink); border-radius: 1px; }
+  .signal { display: flex; gap: 2px; align-items: flex-end; }
+  .signal span { width: 3px; background: currentColor; border-radius: 1px; }
+  .signal span:nth-child(1) { height: 4px; }
+  .signal span:nth-child(2) { height: 6px; }
+  .signal span:nth-child(3) { height: 9px; }
+
+  /* ── SCREEN 1: HOME ── */
+  .home-header {
+    padding: 20px 22px 0;
+  }
+
+  .home-greeting {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: .5px;
+  }
+
+  .home-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-top: 2px;
+    color: var(--ink);
+  }
+
+  .home-title em {
+    font-style: italic;
+    color: var(--sage);
+  }
+
+  /* search bar */
+  .search-bar {
+    margin: 18px 22px 0;
+    background: var(--paper);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+  }
+
+  .search-icon {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--muted);
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .search-icon::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 6px;
+    height: 2px;
+    background: var(--muted);
+    transform: rotate(45deg);
+    border-radius: 1px;
+  }
+
+  .search-placeholder {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .filter-btn {
+    margin-left: auto;
+    width: 28px;
+    height: 28px;
+    background: var(--sage);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .filter-btn svg { display: block; }
+
+  /* quick categories */
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 22px 10px;
+  }
+
+  .section-title {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .see-all {
+    font-size: 12px;
+    color: var(--sage);
+    font-weight: 500;
+  }
+
+  .categories {
+    display: flex;
+    gap: 10px;
+    padding: 0 22px;
+    overflow: hidden;
+  }
+
+  .cat-chip {
+    flex-shrink: 0;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .cat-chip.active { background: var(--sage); color: white; }
+  .cat-chip.inactive { background: var(--paper); color: var(--ink); border: 1.5px solid var(--border); }
+
+  /* featured provider card */
+  .provider-card {
+    margin: 16px 22px 0;
+    background: var(--ink);
+    border-radius: 20px;
+    padding: 18px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .provider-card::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 130px;
+    height: 130px;
+    background: radial-gradient(circle, rgba(74,124,111,.35) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .provider-card-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .avatar-lg {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--sage-light), var(--sage));
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: white;
+    font-weight: 300;
+  }
+
+  .provider-info-main { flex: 1; }
+
+  .provider-name-lg {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .provider-role {
+    font-size: 11px;
+    color: rgba(255,255,255,.6);
+    margin-top: 3px;
+    letter-spacing: .5px;
+  }
+
+  .stars {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    margin-top: 5px;
+  }
+
+  .star { color: var(--warm); font-size: 10px; }
+  .star-count { font-size: 11px; color: rgba(255,255,255,.7); margin-left: 4px; }
+
+  .badge-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .3px;
+  }
+
+  .badge-verified { background: rgba(74,124,111,.3); color: #93c9bc; }
+  .badge-bg { background: rgba(200,169,122,.25); color: var(--warm); }
+  .badge-lic { background: rgba(255,255,255,.1); color: rgba(255,255,255,.8); }
+
+  .provider-rate {
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .rate-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+  }
+
+  .rate-unit { font-size: 12px; color: rgba(255,255,255,.5); }
+
+  .book-btn {
+    background: var(--sage);
+    color: white;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    letter-spacing: .3px;
+  }
+
+  /* small provider list */
+  .provider-list { padding: 0 22px; margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+
+  .provider-row {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .avatar-sm {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: white;
+  }
+
+  .av-sage { background: linear-gradient(135deg, #7ab5a8, var(--sage)); }
+  .av-warm { background: linear-gradient(135deg, #d4b888, var(--warm)); }
+
+  .row-info { flex: 1; }
+
+  .row-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .row-role { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .row-right { text-align: right; }
+  .row-rate { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .row-avail { font-size: 10px; color: var(--sage); margin-top: 1px; font-weight: 500; }
+
+  /* bottom nav */
+  .bottom-nav {
+    margin-top: auto;
+    padding: 14px 22px 0;
+    border-top: 1.5px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+  }
+
+  .nav-icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-label { font-size: 9px; font-weight: 500; color: var(--muted); letter-spacing: .5px; }
+  .nav-item.active .nav-label { color: var(--sage); }
+
+  /* ── SCREEN 2: PROFILE ── */
+  .profile-header {
+    background: var(--ink);
+    padding: 16px 22px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .profile-header::before {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    left: -40px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(74,124,111,.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .back-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: rgba(255,255,255,.6);
+    margin-bottom: 16px;
+  }
+
+  .profile-top {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .avatar-xl {
+    width: 70px;
+    height: 70px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #7ab5a8, var(--sage));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    color: white;
+    font-weight: 300;
+    flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,.15);
+  }
+
+  .profile-meta { flex: 1; }
+
+  .profile-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: white;
+    line-height: 1;
+  }
+
+  .profile-credential {
+    font-size: 12px;
+    color: var(--sage-light);
+    margin-top: 3px;
+    font-weight: 500;
+  }
+
+  .profile-location {
+    font-size: 11px;
+    color: rgba(255,255,255,.45);
+    margin-top: 4px;
+  }
+
+  .profile-stars {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+  }
+
+  .profile-stars .star { font-size: 11px; }
+  .profile-stars span { font-size: 12px; color: rgba(255,255,255,.7); }
+
+  .heart-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .profile-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 18px; }
+
+  .info-section-title {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .trust-badges-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .trust-badge {
+    background: var(--sage-pale);
+    border: 1px solid rgba(74,124,111,.2);
+    border-radius: 10px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .trust-badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--sage);
+    flex-shrink: 0;
+  }
+
+  .trust-badge-label { font-size: 11px; font-weight: 500; color: var(--sage); }
+
+  .trust-badge.gold { background: var(--warm-pale); border-color: rgba(200,169,122,.25); }
+  .trust-badge.gold .trust-badge-dot { background: var(--warm); }
+  .trust-badge.gold .trust-badge-label { color: #9a7540; }
+
+  .spec-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+
+  .spec-pill {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--paper);
+    color: var(--ink);
+    border: 1.5px solid var(--border);
+  }
+
+  .exp-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .exp-item { text-align: center; }
+  .exp-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .exp-label { font-size: 10px; color: var(--muted); margin-top: 3px; font-weight: 500; }
+
+  .divider { height: 1px; background: var(--border); }
+
+  .cta-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .msg-btn {
+    flex: 1;
+    padding: 13px;
+    border-radius: 12px;
+    border: 2px solid var(--ink);
+    background: transparent;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .book-btn-lg {
+    flex: 2;
+    padding: 13px;
+    border-radius: 12px;
+    border: none;
+    background: var(--sage);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+  }
+
+  /* ── SCREEN 3: POST CASE ── */
+  .post-header {
+    padding: 16px 22px 0;
+  }
+
+  .post-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-top: 14px;
+  }
+
+  .post-title em { font-style: italic; color: var(--sage); }
+
+  .post-subtitle {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  .form-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; }
+
+  .form-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 7px;
+  }
+
+  .type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .type-chip {
+    padding: 12px 10px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .type-chip.sel { background: var(--ink); color: white; }
+  .type-chip.unsel { background: var(--paper); color: var(--ink); border: 1.5px solid var(--border); }
+
+  .form-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: var(--paper);
+    font-size: 13px;
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+  }
+
+  .form-input.focus { border-color: var(--sage); }
+
+  .urgency-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .urgency-chip {
+    flex: 1;
+    padding: 10px 6px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .urgency-chip.low { background: var(--sage-pale); color: var(--sage); }
+  .urgency-chip.med { background: var(--warm-pale); color: #9a7540; }
+  .urgency-chip.high { background: #fde8e8; color: var(--red-soft); }
+
+  .textarea-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: var(--paper);
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    resize: none;
+    height: 70px;
+    line-height: 1.5;
+  }
+
+  .post-submit-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 14px;
+    border: none;
+    background: var(--ink);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    letter-spacing: .3px;
+    margin-top: 4px;
+  }
+
+  .match-preview {
+    background: var(--sage-pale);
+    border: 1px solid rgba(74,124,111,.2);
+    border-radius: 14px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .match-dot-row {
+    display: flex;
+  }
+
+  .match-dot-row .avatar-sm {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-right: -6px;
+    border: 2px solid var(--sage-pale);
+  }
+
+  .match-text { font-size: 12px; color: var(--sage); font-weight: 500; }
+  .match-subtext { font-size: 10px; color: var(--muted); margin-top: 1px; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── BOTTOM BRAND ── */
+  .bottom-brand {
+    margin-top: 64px;
+    text-align: center;
+    animation: fadeUp 1s ease .6s both;
+  }
+
+  .bottom-brand p {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .bottom-brand strong {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: -0.5px;
+    color: var(--sage);
+    display: block;
+    margin-top: 4px;
+  }
+
+  /* scrollbar hide */
+  ::-webkit-scrollbar { display: none; }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="wordmark">S<span>a</span>fe</div>
+  <div class="tagline">Trusted care · Verified professionals</div>
+</div>
+
+<!-- Phones -->
+<div class="phone-row">
+
+  <!-- ────── PHONE 1: HOME ────── -->
+  <div class="phone-wrap">
+    <div class="screen-label">Home</div>
+    <div class="phone" style="animation-delay:.1s">
+      <div class="phone-inner">
+        <div class="notch"></div>
+        <div class="statusbar">
+          <span>9:41</span>
+          <div class="statusbar-right">
+            <div class="signal"><span></span><span></span><span></span></div>
+            <div class="battery"><div class="battery-fill"></div></div>
+          </div>
+        </div>
+
+        <div class="home-header">
+          <div class="home-greeting">Good morning, Sarah</div>
+          <div class="home-title">Find <em>trusted</em><br>care near you</div>
+        </div>
+
+        <div class="search-bar">
+          <div class="search-icon"></div>
+          <span class="search-placeholder">Search by role, location…</span>
+          <div class="filter-btn">
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+              <path d="M1 1h12M3 5h8M5 9h4" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="section-head">
+          <span class="section-title">Browse by type</span>
+          <span class="see-all">See all</span>
+        </div>
+
+        <div class="categories">
+          <div class="cat-chip active">All</div>
+          <div class="cat-chip inactive">RN / LPN</div>
+          <div class="cat-chip inactive">CNA</div>
+          <div class="cat-chip inactive">Caregiver</div>
+        </div>
+
+        <!-- Featured card -->
+        <div class="provider-card">
+          <div class="provider-card-top">
+            <div class="avatar-lg">A</div>
+            <div class="provider-info-main">
+              <div class="provider-name-lg">Angela M.</div>
+              <div class="provider-role">Registered Nurse · 10 yrs</div>
+              <div class="stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                <span class="star-count">4.9 (84 reviews)</span>
+              </div>
+            </div>
+          </div>
+          <div class="badge-row">
+            <div class="badge badge-verified">✓ Identity Verified</div>
+            <div class="badge badge-bg">Background Checked</div>
+            <div class="badge badge-lic">License Verified</div>
+          </div>
+          <div class="provider-rate">
+            <div>
+              <div class="rate-amount">$55<span class="rate-unit">/hr</span></div>
+              <div style="font-size:10px;color:rgba(255,255,255,.45);margin-top:2px;">Baltimore · Columbia · Laurel</div>
+            </div>
+            <button class="book-btn">Book Now</button>
+          </div>
+        </div>
+
+        <div class="section-head">
+          <span class="section-title">Available Today</span>
+          <span class="see-all">View all</span>
+        </div>
+
+        <div class="provider-list">
+          <div class="provider-row">
+            <div class="avatar-sm av-sage">D</div>
+            <div class="row-info">
+              <div class="row-name">Denise R.</div>
+              <div class="row-role">CNA · Post-surgical care</div>
+            </div>
+            <div class="row-right">
+              <div class="row-rate">$38/hr</div>
+              <div class="row-avail">● Available now</div>
+            </div>
+          </div>
+          <div class="provider-row">
+            <div class="avatar-sm av-warm">T</div>
+            <div class="row-info">
+              <div class="row-name">Thomas K.</div>
+              <div class="row-role">HHA · Elder care</div>
+            </div>
+            <div class="row-right">
+              <div class="row-rate">$29/hr</div>
+              <div class="row-avail">● Available now</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item active">
+            <div class="nav-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M3 10L10 3l7 7" stroke="#4a7c6f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5 8v8h4v-4h2v4h4V8" stroke="#4a7c6f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="nav-label" style="color:var(--sage)">HOME</div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <circle cx="9" cy="9" r="5.5" stroke="#7a7870" stroke-width="1.5"/>
+                <path d="M13.5 13.5l3 3" stroke="#7a7870" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="nav-label">FIND</div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="3" y="3" width="14" height="14" rx="3" stroke="#7a7870" stroke-width="1.5"/>
+                <path d="M10 7v6M7 10h6" stroke="#7a7870" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="nav-label">POST</div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M3 14.5C3 11.5 5 9 10 9s7 2.5 7 5.5" stroke="#7a7870" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="10" cy="5.5" r="2.5" stroke="#7a7870" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <div class="nav-label">PROFILE</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ────── PHONE 2: PROVIDER PROFILE ────── -->
+  <div class="phone-wrap">
+    <div class="screen-label">Provider Profile</div>
+    <div class="phone" style="animation-delay:.2s">
+      <div class="phone-inner">
+        <div class="notch"></div>
+        <div class="statusbar">
+          <span>9:41</span>
+          <div class="statusbar-right">
+            <div class="signal"><span></span><span></span><span></span></div>
+            <div class="battery"><div class="battery-fill"></div></div>
+          </div>
+        </div>
+
+        <div class="profile-header">
+          <div class="back-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M9 11L5 7l4-4" stroke="rgba(255,255,255,.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back to results
+          </div>
+          <div class="profile-top">
+            <div class="avatar-xl">A</div>
+            <div class="profile-meta">
+              <div class="profile-name">Angela M.</div>
+              <div class="profile-credential">Registered Nurse (RN)</div>
+              <div class="profile-location">Baltimore, Columbia, Laurel, MD</div>
+              <div class="profile-stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                <span>4.9 · 84 reviews</span>
+              </div>
+            </div>
+            <div class="heart-btn">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 13.5S2 9.5 2 5.5A3 3 0 018 3.9 3 3 0 0114 5.5c0 4-6 8-6 8z" stroke="rgba(255,255,255,.5)" stroke-width="1.5" fill="none"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-body">
+
+          <!-- trust badges -->
+          <div>
+            <div class="info-section-title">Verification & Trust</div>
+            <div class="trust-badges-grid">
+              <div class="trust-badge">
+                <div class="trust-badge-dot"></div>
+                <div class="trust-badge-label">Identity Verified</div>
+              </div>
+              <div class="trust-badge">
+                <div class="trust-badge-dot"></div>
+                <div class="trust-badge-label">Background Checked</div>
+              </div>
+              <div class="trust-badge">
+                <div class="trust-badge-dot"></div>
+                <div class="trust-badge-label">License Verified</div>
+              </div>
+              <div class="trust-badge gold">
+                <div class="trust-badge-dot"></div>
+                <div class="trust-badge-label">BLS / ACLS Cert.</div>
+              </div>
+              <div class="trust-badge gold">
+                <div class="trust-badge-dot"></div>
+                <div class="trust-badge-label">CPR Certified</div>
+              </div>
+              <div class="trust-badge">
+                <div class="trust-badge-dot"></div>
+                <div class="trust-badge-label">Safe Approved</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- specialties -->
+          <div>
+            <div class="info-section-title">Specialties</div>
+            <div class="spec-pills">
+              <div class="spec-pill">Post-op Care</div>
+              <div class="spec-pill">Geriatrics</div>
+              <div class="spec-pill">Medication Mgmt</div>
+              <div class="spec-pill">Wound Care</div>
+              <div class="spec-pill">Dementia</div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- stats -->
+          <div class="exp-row">
+            <div class="exp-item">
+              <div class="exp-num">10</div>
+              <div class="exp-label">Years Exp.</div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-num">84</div>
+              <div class="exp-label">Reviews</div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-num">$55</div>
+              <div class="exp-label">Per Hour</div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-num">4.9</div>
+              <div class="exp-label">Rating</div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- CTA -->
+          <div class="cta-row">
+            <button class="msg-btn">Message</button>
+            <button class="book-btn-lg">Book Angela</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ────── PHONE 3: POST A CASE ────── -->
+  <div class="phone-wrap">
+    <div class="screen-label">Post a Case</div>
+    <div class="phone" style="animation-delay:.3s">
+      <div class="phone-inner">
+        <div class="notch"></div>
+        <div class="statusbar">
+          <span>9:41</span>
+          <div class="statusbar-right">
+            <div class="signal"><span></span><span></span><span></span></div>
+            <div class="battery"><div class="battery-fill"></div></div>
+          </div>
+        </div>
+
+        <div class="post-header">
+          <div class="home-greeting" style="margin-top:14px">New Care Request</div>
+          <div class="post-title">What kind of<br>care do you <em>need?</em></div>
+          <div class="post-subtitle">Describe your need and we'll match you with verified professionals nearby.</div>
+        </div>
+
+        <div class="form-body">
+
+          <div>
+            <div class="form-label">Care Type</div>
+            <div class="type-grid">
+              <div class="type-chip sel">In-Home Care</div>
+              <div class="type-chip unsel">Post-Surgical</div>
+              <div class="type-chip unsel">Companionship</div>
+              <div class="type-chip unsel">Facility Shift</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="form-label">Professional Role Needed</div>
+            <input class="form-input" type="text" value="Registered Nurse (RN)" readonly>
+          </div>
+
+          <div>
+            <div class="form-label">Location</div>
+            <input class="form-input focus" type="text" value="Baltimore, MD 21201" readonly>
+          </div>
+
+          <div>
+            <div class="form-label">Urgency</div>
+            <div class="urgency-row">
+              <div class="urgency-chip low">Flexible</div>
+              <div class="urgency-chip med">This Week</div>
+              <div class="urgency-chip high">Urgent</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="form-label">Details</div>
+            <textarea class="textarea-input" readonly>Post-op care for mom after hip replacement. Need overnight coverage for 3–5 days…</textarea>
+          </div>
+
+          <!-- match preview -->
+          <div class="match-preview">
+            <div class="match-dot-row">
+              <div class="avatar-sm av-sage" style="width:32px;height:32px;border-radius:8px;font-size:13px;margin-right:-6px;border:2px solid var(--sage-pale)">A</div>
+              <div class="avatar-sm av-warm" style="width:32px;height:32px;border-radius:8px;font-size:13px;margin-right:-6px;border:2px solid var(--sage-pale)">D</div>
+              <div class="avatar-sm av-sage" style="width:32px;height:32px;border-radius:8px;font-size:13px;border:2px solid var(--sage-pale);background:var(--muted)">+5</div>
+            </div>
+            <div>
+              <div class="match-text">7 professionals match your case</div>
+              <div class="match-subtext">All verified · Available this week</div>
+            </div>
+          </div>
+
+          <button class="post-submit-btn">Post My Case →</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom brand -->
+<div class="bottom-brand">
+  <p>A concept by</p>
+  <strong>Safe — Trusted care, right when you need it.</strong>
+</div>
+
+</body>
+</html>
+
