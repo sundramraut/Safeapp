@@ -89,15 +89,14 @@
   <div id="root"></div>
 
   <script>
-    // Call window.__hideSplash() from App.js once React is ready
-    window.__hideSplash = function () {
-      var el = document.getElementById('splash');
-      if (el) {
-        el.classList.add('hidden');
-        setTimeout(function () { el.remove(); }, 450);
-      }
-    };
+    // Redirect after 3 seconds
+    setTimeout(function() {
+      window.location.href = "clienthome.js";
+    }, 5000);
   </script>
+
+</head>
+<body>
 
 </body>
 </html>
